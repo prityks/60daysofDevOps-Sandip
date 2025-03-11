@@ -2,27 +2,37 @@
 
 python/Dockerfile:
 
+
 FROM python:3.9
+
 WORKDIR /app
+
 COPY python/hello.py .
+
 CMD ["python", "hello.py"]
 
 
 nginx/Dockerfile:
 
+
 FROM nginx
+
 COPY nginx/index.html /usr/share/nginx/html/index.html
+
 EXPOSE 80
 
 
 🔹 Challenge 2: Build a Docker image from your Dockerfile and tag it with a version (docker build -t myapp:v1 .).
 
+
 Building Image from Dockerfile with tag:
 
 #PYTHON SCRIPT 
+
 docker build -t python_script:v1 -f python/Dockerfile .
 
 #NGINX APP
+
 docker build -t nginx_app:v1 -f nginx/Dockerfile .
 
 Verify image with tags:
@@ -35,12 +45,17 @@ docker images
 Running Containers:
 
 #python_script container, should display "Hello Prity" wih docker logs
+
 docker run -d --name python_script python_script:v1
+
 docker logs <container_id_python_script>
 
 #nginx container
+
 docker run -d -p 8080:80 --name nginx_app nginx_app:v1
+
 curl http://localhost:8080  #should display below content
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -54,35 +69,30 @@ curl http://localhost:8080  #should display below content
 </html>
 
 
+
 🔹 Challenge 4: Push your custom Docker image to Docker Hub.
+
 docker login
+
 docker tag nginx_app:v1 prityks/nginx_app:v1
+
 docker push prityks/nginx_app:v1
 
 
+
 🔹 Challenge 5: Use docker exec -it <container_id> bash to enter a running container and explore it.
+
 docker exec -it <container_id> /bin/bash
 
 
 🔹 Challenge 6: Run a detached container (-d flag), restart it, and check logs (docker logs <container_id>).
+
 docker run -d -p 8080:80 --name nginx_app nginx_app:v1
+
 docker restart <container_id>
+
 docker logs <container_id>
 
 
 
 
-challenge:1
-task1:
-
-docker build -t python_script -f python/Dockerfile .
-docker run -d --name python_script python_script
-
-task2:
-
-docker build -t nginx_app -f nginx/Dockerfile .
-docker run -d -p 8080:80 --name nginx_app nginx_app
-
-challenge2:
-docker build -t nginx_app:v1 -f ngix/Dockerfile .
-docker images
